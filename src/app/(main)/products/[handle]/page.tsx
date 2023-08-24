@@ -1,4 +1,5 @@
-import medusaRequest from "@lib/medusa-fetch"
+//@ts-nocheck
+// import medusaRequest from "@lib/medusa-fetch"
 import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
@@ -8,41 +9,45 @@ type Props = {
 }
 
 async function getProducts(handle: string) {
-  const res = await medusaRequest("GET", "/products", {
-    query: {
-      handle,
-    },
-  })
+  let pid = handle;
+  const res = await fetch(`http://localhost:5000/api/products/${pid}`);
+  const product = await res.json();
+  // const res = await medusaRequest("GET", "/products", {
+  //   query: {
+  //     handle,
+  //   },
+  // })
 
   if (!res.ok) {
     notFound()
   }
 
-  return res.body
+  console.log(product)
+  return product
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { products } = await getProducts(params.handle)
+  const { product } = await getProducts(params.handle)
+  console.log(product)
+  // if (!products?.length) {
+  //   notFound()
+  // }
 
-  if (!products.length) {
-    notFound()
-  }
+  // const product = products[0]
 
-  const product = products[0]
-
-  return {
-    title: `${product.title} | Acme Store`,
-    description: `${product.title}`,
-    openGraph: {
-      title: `${product.title} | Acme Store`,
-      description: `${product.title}`,
-      images: product.thumbnail ? [product.thumbnail] : [],
-    },
-  }
+  // return {
+  //   title: `${product.title} | Acme Store`,
+  //   description: `${product.title}`,
+  //   openGraph: {
+  //     title: `${product.title} | Acme Store`,
+  //     description: `${product.title}`,
+  //     images: product.thumbnail ? [product.thumbnail] : [],
+  //   },
+  // }
 }
 
 export default async function CollectionPage({ params }: Props) {
   const { products } = await getProducts(params.handle)
-
-  return <ProductTemplate product={products[0]} />
+  console.log(products)
+  // return <ProductTemplate product={products[0]} />
 }

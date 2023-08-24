@@ -33,6 +33,7 @@ const Register = () => {
   } = useForm<RegisterCredentials>()
 
   const onSubmit = handleSubmit(async (credentials) => {
+    console.log(credentials)
     await medusaClient.customers
       .create(credentials)
       .then(() => {

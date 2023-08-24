@@ -1,34 +1,36 @@
+//@ts-nocheck
 import clsx from "clsx"
 import Link from "next/link"
 import { ProductPreviewType } from "types/global"
 import Thumbnail from "../thumbnail"
 
 const ProductPreview = ({
-  title,
-  handle,
-  thumbnail,
-  price,
+  goods_name,
+  goods_id,
+  goods_thumb,
+  salePrice,
 }: ProductPreviewType) => {
+  let handle = goods_id
   return (
     <Link href={`/products/${handle}`}>
       <div>
-        <Thumbnail thumbnail={thumbnail} size="full" />
+        <Thumbnail thumbnail={goods_thumb} size="full" />
         <div className="text-base-regular mt-2">
-          <span>{title}</span>
+          <span>{goods_name}</span>
           <div className="flex items-center gap-x-2 mt-1">
-            {price ? (
+            {salePrice?.amount ? (
               <>
-                {price.price_type === "sale" && (
+                {salePrice.amount === "sale" && (
                   <span className="line-through text-gray-500">
-                    {price.original_price}
+                    {salePrice.amount}
                   </span>
                 )}
                 <span
                   className={clsx("font-semibold", {
-                    "text-rose-500": price.price_type === "sale",
+                    "text-rose-500": salePrice.amount === "sale",
                   })}
                 >
-                  {price.calculated_price}
+                  {salePrice.amount}
                 </span>
               </>
             ) : (

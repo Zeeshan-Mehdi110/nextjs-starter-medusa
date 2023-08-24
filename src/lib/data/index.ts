@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { medusaClient } from "@lib/config"
 import { StoreGetProductsParams } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import axios from "axios"
 
 const COL_LIMIT = 15
 
@@ -120,14 +122,16 @@ export const fetchProductsList = async ({
   pageParam = 0,
   queryParams,
 }: FetchProductListParams) => {
-  const { products, count, offset } = await medusaClient.products.list({
-    limit: 12,
-    offset: pageParam,
-    ...queryParams,
-  })
+  // const { products, count, offset } = await medusaClient.products.list({
+  //   limit: 12,
+  //   offset: pageParam,
+  //   ...queryParams,
+  // })
 
+  const response = await axios.get(`http://localhost:5000/api/products`)
+  const products = response.data
   return {
-    response: { products, count },
-    nextPage: count > offset + 12 ? offset + 12 : null,
+    response: { products},
+    // nextPage: 20 > 0 + 12 ? 0 + 12 : null,
   }
 }

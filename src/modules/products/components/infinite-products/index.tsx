@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { fetchProductsList } from "@lib/data"
 import usePreviews from "@lib/hooks/use-previews"
 import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
@@ -42,9 +43,11 @@ const InfiniteProducts = ({ params }: InfiniteProductsType) => {
         getNextPageParam: (lastPage) => lastPage.nextPage,
       }
     )
-
-  const previews = usePreviews({ pages: data?.pages, region: cart?.region })
-
+  console.log(data)
+  // const previews = usePreviews({ pages: data?.pages, region: cart?.region })
+  let previews = []
+  previews = data?.pages[0]?.response?.products
+  console.log(previews)
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage()
@@ -55,24 +58,24 @@ const InfiniteProducts = ({ params }: InfiniteProductsType) => {
   return (
     <div className="flex-1 content-container">
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8 flex-1">
-        {previews.map((p) => (
-          <li key={p.id}>
+        {previews?.map((p) => (
+          <li key={p.goods_id}>
             <ProductPreview {...p} />
           </li>
         ))}
         {isLoading &&
-          !previews.length &&
+          !previews?.length &&
           repeat(8).map((index) => (
             <li key={index}>
               <SkeletonProductPreview />
             </li>
           ))}
-        {isFetchingNextPage &&
+        {/* {isFetchingNextPage &&
           repeat(getNumberOfSkeletons(data?.pages)).map((index) => (
             <li key={index}>
               <SkeletonProductPreview />
             </li>
-          ))}
+          ))} */}
       </ul>
       <div
         className="py-16 flex justify-center items-center text-small-regular text-gray-700"
