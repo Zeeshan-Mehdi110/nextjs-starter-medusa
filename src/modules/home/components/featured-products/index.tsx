@@ -7,12 +7,13 @@ import ProductPreview from "@modules/products/components/product-preview"
 import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { getAllProducts } from "@lib/api/product/list"
 
 const FeaturedProducts = () => {
   const [data, setData] = useState([])
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.get(`http://localhost:5000/api/products`)
+      const response = await getAllProducts()
       const products = response.data
       return products
     }

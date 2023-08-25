@@ -18,14 +18,14 @@ interface MeasurementFormData {
 const MeasureInputStep = () => {
   const [formData, setFormData] = useState<MeasurementFormData>({
     gender: 'male',
-    height: '',
-    weight: '',
-    chest: '',
-    waist: '',
-    hip: '',
-    ankle: '',
-    calf: '',
-    knee: ''
+    height: null,
+    weight: null,
+    chest: null,
+    waist: null,
+    hip: null,
+    ankle: null,
+    calf: null,
+    knee: null,
   });
 
   const [showAdditionalMeasurements, setShowAdditionalMeasurements] = useState(false);
@@ -34,7 +34,7 @@ const MeasureInputStep = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:9000/store/submitMeasurement', {
+      const response = await fetch('http://localhost:9000/store/measurement/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

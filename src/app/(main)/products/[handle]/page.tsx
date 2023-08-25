@@ -3,14 +3,14 @@
 import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-
+import { getAllProducts } from "@lib/api/product/list"
 type Props = {
   params: { handle: string }
 }
 
 async function getProducts(handle: string) {
   let pid = handle;
-  const res = await fetch(`http://localhost:5000/api/products/${pid}`);
+  const res = await getAllProducts()
   const product = await res.json();
   // const res = await medusaRequest("GET", "/products", {
   //   query: {
